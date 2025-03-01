@@ -8,11 +8,11 @@ const jwt = require("jsonwebtoken")
 exports.addProduct = async (req, res, next) => {
    try {
 
-      const { name, description, price, category, subCategory, sizes, bestseller } = req.body
+      const { name, description, price, category, sizes, bestseller } = req.body
 
       const optionData = {}
 
-      if(description) {
+      if (description) {
          optionData.description = description
       }
 
@@ -32,33 +32,33 @@ exports.addProduct = async (req, res, next) => {
 
       const product = await prisma.product.create({
          data: {
-           name,
-           price: Number(price),
-           ...optionData,
-           category: {
-             connectOrCreate: {
-               where: { name: category },
-               create: { name: category },
-             },
-           },
-           sizes: {
-             create: [
-               { size: { connectOrCreate: { where: { size: "S" }, create: { size: "S" } } } },
-               { size: { connectOrCreate: { where: { size: "M" }, create: { size: "M" } } } },
-               { size: { connectOrCreate: { where: { size: "L" }, create: { size: "L" } } } },
-             ],
-           },
-           AllImages: {
-             create: imagesUrl.map((item) => ({
-               url: item.secure_url,
-             })),
-           },
+            name,
+            price: Number(price),
+            ...optionData,
+            category: {
+               connectOrCreate: {
+                  where: { name: category },
+                  create: { name: category },
+               },
+            },
+            sizes: {
+               create: [
+                  { size: { connectOrCreate: { where: { size: "S" }, create: { size: "S" } } } },
+                  { size: { connectOrCreate: { where: { size: "M" }, create: { size: "M" } } } },
+                  { size: { connectOrCreate: { where: { size: "L" }, create: { size: "L" } } } },
+               ],
+            },
+            AllImages: {
+               create: imagesUrl.map((item) => ({
+                  url: item.secure_url,
+               })),
+            },
          },
-       });
-       
+      });
+
 
       console.log(product)
-      
+
 
       res.json({ message: "add product", })
    } catch (err) {
@@ -69,26 +69,78 @@ exports.addProduct = async (req, res, next) => {
 
 }
 
-exports.listProduct = async (req, res, next) => {
+exports.getProduct = async (req, res, next) => {
    try {
-      res.json({ message: "listProduct" })
-   } catch (err) {
-      next()
+     const { productId } = req.params;
+     
+     const product = await prisma.product.findUnique({
+       where: { id: Number(productId) },
+       select: {
+         name: true,
+         description: true,
+         price: true,
+         bestseller: true,
+         AllImages: {
+           select: {
+             url: true,
+           },
+         },
+         sizes: {
+           select: {
+             size: {
+               select: {
+                 size: true,
+               },
+             },
+           },
+         },
+       },
+     });
+ 
+     if (!product) {
+       return res.status(404).json({ message: "Product not found" });
+     }
+ 
+     res.status(200).json(product);
+   } catch (error) {
+     console.error("Error fetching product:", error);
+     next(error);
    }
-}
+ };
 
-exports.removeProduct = async (req, res, next) => {
+exports.editProduct = async (req, res, next) => {
    try {
-      res.json({ message: "removeProduct" })
-   } catch (err) {
-      next()
-   }
-}
+      const { productId } = req.params;
+      const { name, description, price, bestseller } = req.body;
 
-exports.singleProduct = async (req, res, next) => {
-   try {
-      res.json({ message: "singleProduct" })
-   } catch (err) {
-      next()
+      const updatedProduct = await prisma.product.update({
+         where: { id: Number(productId) },
+         data: {
+            name,
+            description,
+            price,
+            bestseller,
+         },
+      });
+
+      res.status(200).json(updatedProduct);
+   } catch (error) {
+      console.error("Error updating product:", error);
+      next(error);
    }
-}
+};
+
+exports.deleteProduct = async (req, res, next) => {
+   try {
+     const { productId } = req.params;
+     
+     await prisma.product.delete({
+       where: { id: Number(productId) },
+     });
+ 
+     res.status(200).json({ message: "Product deleted successfully" });
+   } catch (error) {
+     console.error("Error deleting product:", error);
+     next(error);
+   }
+ };

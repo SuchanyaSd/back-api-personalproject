@@ -84,3 +84,24 @@ exports.currentUser = async (req, res, next) => {
       next(error);
    }
 };
+
+exports.editUser = async (req, res, next) => {
+   try {
+      const { firstname, lastname, address } = req.body;
+
+      const profile = await prisma.user.update({
+         where: {
+            id: req.user.id,
+         },
+         data: {
+            firstname: firstname,
+            lastname: lastname,
+            address: address,
+         },
+      });
+
+      res.json({ message: "Edit Success" });
+   } catch (err) {
+      next(err)
+   }
+}
