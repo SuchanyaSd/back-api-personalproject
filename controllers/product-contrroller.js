@@ -2,8 +2,6 @@
 const cloudinary = require("../configs/cloudinary")
 const prisma = require("../configs/prisma")
 const createError = require("../utils/createError")
-const bcrypt = require("bcryptjs")
-const jwt = require("jsonwebtoken")
 
 exports.addProduct = async (req, res, next) => {
    try {
@@ -71,42 +69,76 @@ exports.addProduct = async (req, res, next) => {
 
 exports.getProduct = async (req, res, next) => {
    try {
-     const { productId } = req.params;
-     
-     const product = await prisma.product.findUnique({
-       where: { id: Number(productId) },
-       select: {
-         name: true,
-         description: true,
-         price: true,
-         bestseller: true,
-         AllImages: {
-           select: {
-             url: true,
-           },
-         },
-         sizes: {
-           select: {
-             size: {
+      const { productId } = req.params;
+
+      const product = await prisma.product.findUnique({
+         where: { id: Number(productId) },
+         select: {
+            id: true,
+            name: true,
+            description: true,
+            price: true,
+            bestseller: true,
+            AllImages: {
                select: {
-                 size: true,
+                  url: true,
                },
-             },
-           },
+            },
+            sizes: {
+               select: {
+                  size: {
+                     select: {
+                        size: true,
+                     },
+                  },
+               },
+            },
          },
-       },
-     });
- 
-     if (!product) {
-       return res.status(404).json({ message: "Product not found" });
-     }
- 
-     res.status(200).json(product);
+      });
+
+      if (!product) {
+         return res.status(404).json({ message: "Product not found" });
+      }
+
+      res.status(200).json(product);
    } catch (error) {
-     console.error("Error fetching product:", error);
-     next(error);
+      console.error("Error fetching product:", error);
+      next(error);
    }
- };
+};
+
+exports.getAllProducts = async (req, res, next) => {
+   try {
+      const products = await prisma.product.findMany({
+         select: {
+            id: true,
+            name: true,
+            description: true,
+            price: true,
+            bestseller: true,
+            AllImages: {
+               select: {
+                  url: true,
+               },
+            },
+            sizes: {
+               select: {
+                  size: {
+                     select: {
+                        size: true,
+                     },
+                  },
+               },
+            },
+         },
+      });
+
+      res.status(200).json(products);
+   } catch (error) {
+      console.error("Error fetching products:", error);
+      next(error);
+   }
+};
 
 exports.editProduct = async (req, res, next) => {
    try {
@@ -132,15 +164,15 @@ exports.editProduct = async (req, res, next) => {
 
 exports.deleteProduct = async (req, res, next) => {
    try {
-     const { productId } = req.params;
-     
-     await prisma.product.delete({
-       where: { id: Number(productId) },
-     });
- 
-     res.status(200).json({ message: "Product deleted successfully" });
+      const { productId } = req.params;
+
+      await prisma.product.delete({
+         where: { id: Number(productId) },
+      });
+
+      res.status(200).json({ message: "Product deleted successfully" });
    } catch (error) {
-     console.error("Error deleting product:", error);
-     next(error);
+      console.error("Error deleting product:", error);
+      next(error);
    }
- };
+};
