@@ -42,9 +42,9 @@ model Size {
   size String @unique
 
   products     ProductSize[] // ใช้ตารางกลางแทน
-  Order_Item   Order_Item?   @relation(fields: [order_ItemId], references: [id])
   order_ItemId Int?
   orderId      Int?
+  Order_Item   Order_Item[]
 }
 
 // ตารางกลาง Many-to-Many ระหว่าง Product และ Size
@@ -78,7 +78,7 @@ model Order {
 
   paymentDate   DateTime?    @default(now())
   paymentMethod String?
-  paymentStatus String?
+  paymentStatus Boolean       @default(false)
   orderItems    Order_Item[]
   completed     Boolean      @default(false)
 }
@@ -90,5 +90,6 @@ model Order_Item {
   productId Int
   products  Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   quantity  Int
-  size      Size[] // ใช้ตารางกลางแทน
+  sizeId    Int
+  size      Size    @relation(fields: [sizeId], references: [id], onDelete: Cascade)
 }

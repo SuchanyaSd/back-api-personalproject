@@ -10,6 +10,7 @@ orderRoute.patch("/status", orderController.updateStatus)
 orderRoute.post("/place", orderController.placeOrder)
 
 // user
-orderRoute.post("/user-order", orderController.userOrders)
+orderRoute.get("/user-order", orderController.userOrders)
+
 
 module.exports = orderRoute

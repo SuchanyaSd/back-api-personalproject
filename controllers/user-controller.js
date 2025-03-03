@@ -135,3 +135,37 @@ exports.getCustomerId = async (req, res, next) => {
       next(error);
    }
 };
+
+exports.getCartItemsByCustomerId = async (req, res, next) => {
+   try {
+     const { customerId } = req.params; // รับ customerId จาก params
+ 
+     if (!customerId) {
+       return res.status(400).json({ message: 'customerId is required' });
+     }
+ 
+     const orders = await prisma.order.findMany({
+       where: {
+         customerId: Number(customerId),
+         completed: false,
+       },
+       include: {
+         orderItems: {
+           include: {
+             products: true,
+             size: true,
+           },
+         },
+       },
+     });
+ 
+     if (!orders || orders.length === 0) {
+       return res.status(404).json({ message: 'No cart items found for this customer' });
+     }
+ 
+     res.status(200).json(orders);
+   } catch (error) {
+     console.error('Error fetching cart items:', error);
+     next(error);
+   }
+ };

@@ -8,5 +8,6 @@ userRouter.post("/login", userController.loginUser)
 userRouter.get("/current-user", authCheck, userController.currentUser)
 userRouter.get("/customer-id", authCheck, userController.getCustomerId)
 userRouter.patch("/edit-user", authCheck, userController.editUser)
+userRouter.get('/cart/:customerId', userController.getCartItemsByCustomerId);
 
 module.exports = userRouter
