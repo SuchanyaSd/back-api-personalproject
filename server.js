@@ -9,8 +9,10 @@ const cartRoute = require("./routes/cart-route")
 const orderRoute = require("./routes/order-route")
 const port = process.env.PORT
 
-const app = express()
+const path = require("path");
+const { fileURLToPath } = require("url");
 
+const app = express()
 
 app.use(cors())
 app.use(morgan("dev"))
@@ -21,6 +23,7 @@ app.use("/api/product", productRoute)
 app.use("/api/cart", cartRoute)
 app.use("/api/order", orderRoute)
 
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
 app.use(handleErrors)
 app.use(notFound)

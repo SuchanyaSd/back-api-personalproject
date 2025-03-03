@@ -41,7 +41,10 @@ model Size {
   id   Int    @id @default(autoincrement())
   size String @unique
 
-  products ProductSize[] // ใช้ตารางกลางแทน
+  products     ProductSize[] // ใช้ตารางกลางแทน
+  Order_Item   Order_Item?   @relation(fields: [order_ItemId], references: [id])
+  order_ItemId Int?
+  orderId      Int?
 }
 
 // ตารางกลาง Many-to-Many ระหว่าง Product และ Size
@@ -55,9 +58,9 @@ model ProductSize {
 }
 
 model AllImages {
-  id        Int     @id @default(autoincrement())
-  productId Int
-  products  Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id        Int      @id @default(autoincrement())
+  productId Int?
+  products  Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
   url       String
 }
 
@@ -87,4 +90,5 @@ model Order_Item {
   productId Int
   products  Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   quantity  Int
+  size      Size[] // ใช้ตารางกลางแทน
 }

@@ -1,6 +1,8 @@
+
+
 exports.placeOrder = async (req, res, next) => {
    try {
-      res.json({message : "placeOrder"})
+      res.json({ message: "placeOrder" })
    } catch (err) {
       next(err)
    }
@@ -8,7 +10,7 @@ exports.placeOrder = async (req, res, next) => {
 
 exports.allOrders = async (req, res, next) => {
    try {
-      res.json({message : "allOrder"})
+      res.json({ message: "allOrder" })
    } catch (err) {
       next(err)
    }
@@ -16,7 +18,7 @@ exports.allOrders = async (req, res, next) => {
 
 exports.userOrders = async (req, res, next) => {
    try {
-      res.json({message : "userOrder"})
+      res.json({ message: "userOrder" })
    } catch (err) {
       next(err)
    }
@@ -24,7 +26,7 @@ exports.userOrders = async (req, res, next) => {
 
 exports.updateStatus = async (req, res, next) => {
    try {
-      res.json({message : "updateStatus"})
+      res.json({ message: "updateStatus" })
    } catch (err) {
       next(err)
    }

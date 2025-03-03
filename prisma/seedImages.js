@@ -1,174 +1,3 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
-
-// const products = [
-//    {
-//       id: 1,
-//       name: "Women Round Neck Cotton Top",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 100,
-//       image: ["image1.jpg"],
-//       category: "Women",
-//       sizes: ["S", "M", "L"],
-//       date: 1716634345448,
-//       bestseller: true
-//    },
-//    {
-//       id: 2,
-//       name: "Men Round Neck Pure Cotton T-shirt",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 200,
-//       image: ["image2_1.jpg", "image2_2.jpg", "image2_3.jpg", "image2_4.jpg"],
-//       category: "Men",
-//       sizes: ["M", "L", "XL"],
-//       date: 1716621345448,
-//       bestseller: true
-//    },
-//    {
-//       id: 3,
-//       name: "Girls Round Neck Cotton Top",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 220,
-//       image: ["image3.jpg"],
-//       category: "Kids",
-//       sizes: ["S", "L", "XL"],
-//       date: 1716234545448,
-//       bestseller: true
-//    },
-//    {
-//       id: 4,
-//       name: "Men Round Neck Pure Cotton T-shirt",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 110,
-//       image: ["image4.jpg"],
-//       category: "Men",
-//       sizes: ["S", "M", "XXL"],
-//       date: 1716621345448,
-//       bestseller: true
-//    },
-//    {
-//       id: 5,
-//       name: "Women Round Neck Cotton Top",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 130,
-//       image: ["image5.jpg"],
-//       category: "Women",
-//       sizes: ["M", "L", "XL"],
-//       date: 1716622345448,
-//       bestseller: true
-//    },
-//    {
-//       id: 6,
-//       name: "Girls Round Neck Cotton Top",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 140,
-//       image: ["image6.jpg"],
-//       category: "Kids",
-//       sizes: ["S", "L", "XL"],
-//       date: 1716623423448,
-//       bestseller: true
-//    },
-//    {
-//       id: 7,
-//       name: "Men Tapered Fit Flat-Front Trousers",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 190,
-//       image: ["image7.jpg"],
-//       category: "Men",
-//       sizes: ["S", "L", "XL"],
-//       date: 1716621542448,
-//       bestseller: false
-//    },
-//    {
-//       id: 8,
-//       name: "Men Round Neck Pure Cotton T-shirt",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 140,
-//       image: ["image8.jpg"],
-//       category: "Men",
-//       sizes: ["S", "M", "L", "XL"],
-//       date: 1716622345448,
-//       bestseller: false
-//    },
-//    {
-//       id: 9,
-//       name: "Girls Round Neck Cotton Top",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 100,
-//       image: ["image9.jpg"],
-//       category: "Kids",
-//       sizes: ["M", "L", "XL"],
-//       date: 1716621235448,
-//       bestseller: false
-//    },
-//    {
-//       id: 10,
-//       name: "Men Tapered Fit Flat-Front Trousers",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 110,
-//       image: ["image10.jpg"],
-//       category: "Men",
-//       sizes: ["S", "L", "XL"],
-//       date: 1716622235448,
-//       bestseller: false
-//    },
-//    {
-//       id: 11,
-//       name: "Men Round Neck Pure Cotton T-shirt",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 120,
-//       image: ["image11.jpg"],
-//       category: "Men",
-//       sizes: ["S", "M", "L"],
-//       date: 1716623345448,
-//       bestseller: false
-//    },
-//    {
-//       id: 12,
-//       name: "Men Round Neck Pure Cotton T-shirt",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 150,
-//       image: ["image12.jpg"],
-//       category: "Men",
-//       sizes: ["S", "M", "L", "XL"],
-//       date: 1716624445448,
-//       bestseller: false
-//    },
-//    {
-//       id: 13,
-//       name: "Women Round Neck Cotton Top",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 130,
-//       image: ["image13.jpg"],
-//       category: "Women",
-//       sizes: ["S", "M", "L", "XL"],
-//       date: 1716625545448,
-//       bestseller: false
-//    },
-//    {
-//       id: 14,
-//       name: "Boy Round Neck Pure Cotton T-shirt",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 160,
-//       image: ["image14.jpg"],
-//       category: "Kids",
-//       sizes: ["S", "M", "L", "XL"],
-//       date: 1716626645448,
-//       bestseller: false
-//    },
-//    {
-//       id: 15,
-//       name: "Men Tapered Fit Flat-Front Trousers",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 140,
-//       image: ["image15.jpg"],
-//       category: "Men",
-//       sizes: ["S", "M", "L", "XL"],
-//       date: 1716627745448,
-//       bestseller: false
-//    },
-// ]
-
 const products = [
    {
       id: 1,
@@ -795,69 +624,36 @@ const products = [
    }
 
 ]
+// ---------------------------------------------------------------------
 
+const { PrismaClient } = require("@prisma/client");
+const path = require("path");
 
-const main = async () => {
+const prisma = new PrismaClient();
 
+const seedImages = async () => {
    try {
       for (const product of products) {
-         // 1. สร้าง Category (ถ้ายังไม่มี)
-         let category = await prisma.category.findUnique({
-            where: { name: product.category },
-         });
-         if (!category) {
-            category = await prisma.category.create({
-               data: { name: product.category },
+         for (const imageFile of product.image) {
+            const fileName = path.basename(imageFile); // ดึงชื่อไฟล์จาก path
+
+            const imageRecord = {
+               url: `http://localhost:8008/uploads/${fileName}`,
+               productId: product.id,
+            };
+
+            await prisma.allImages.create({
+               data: imageRecord,
             });
          }
-
-         // 2. สร้าง Product
-         const createdProduct = await prisma.product.create({
-            data: {
-               id: product.id,
-               name: product.name,
-               description: product.description,
-               price: product.price,
-               categoryId: category.id,
-               bestseller: product.bestseller,
-               date: new Date(product.date),
-            },
-         });
-
-         // 3. สร้าง Size และ ProductSize (ความสัมพันธ์ many-to-many)
-         for (const sizeName of product.sizes) {
-            let size = await prisma.size.findUnique({
-               where: { size: sizeName },
-            });
-            if (!size) {
-               size = await prisma.size.create({
-                  data: { size: sizeName },
-               });
-            }
-            await prisma.productSize.create({
-               data: {
-                  productId: createdProduct.id,
-                  sizeId: size.id,
-               },
-            });
-         }
-
-         // 4. สร้าง AllImages
-         // for (const imageUrl of product.image) {
-         //    await prisma.allImages.create({
-         //       data: {
-         //          productId: createdProduct.id,
-         //          url: imageUrl,
-         //       },
-         //    });
-         // }
       }
-      console.log('Seed data inserted successfully.');
+
+      console.log("✅ All images uploaded successfully!");
    } catch (error) {
-      console.error('Error seeding data:', error);
+      console.error("❌ Error uploading images:", error);
    } finally {
       await prisma.$disconnect();
    }
 };
 
-main();
+seedImages();

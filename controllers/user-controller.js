@@ -105,3 +105,33 @@ exports.editUser = async (req, res, next) => {
       next(err)
    }
 }
+
+exports.getCustomerId = async (req, res, next) => {
+   try {
+      // ดึง token จาก request header
+      const token = req.headers.authorization?.split(" ")[1]; // "Bearer <token>"
+
+      if (!token) {
+         return res.status(401).json({ message: "Unauthorized: No token provided" });
+      }
+
+      // ตรวจสอบและถอดรหัส token
+      const decoded = jwt.verify(token, process.env.SECRET);
+      const userId = decoded.id;
+
+      // ค้นหา user ใน database
+      const user = await prisma.user.findUnique({
+         where: { id: userId },
+         select: { id: true }, // เลือกเฉพาะ customerId (id)
+      });
+
+      if (!user) {
+         return res.status(404).json({ message: "User not found" });
+      }
+
+      res.json({ customerId: user.id });
+
+   } catch (error) {
+      next(error);
+   }
+};
