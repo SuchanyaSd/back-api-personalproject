@@ -85,9 +85,30 @@ exports.loginUser = async (req, res, next) => {
 //    }
 // };
 
+// exports.editUser = async (req, res, next) => {
+//    try {
+//       const { firstname, lastname, address } = req.body;
+
+//       const profile = await prisma.user.update({
+//          where: {
+//             id: req.user.id,
+//          },
+//          data: {
+//             firstname: firstname,
+//             lastname: lastname,
+//             address: address,
+//          },
+//       });
+
+//       res.json({ message: "Edit Success" });
+//    } catch (err) {
+//       next(err)
+//    }
+// }
+
 exports.editUser = async (req, res, next) => {
    try {
-      const { firstname, lastname, address } = req.body;
+      const { firstname, lastname,  } = req.body;
 
       const profile = await prisma.user.update({
          where: {
@@ -96,7 +117,6 @@ exports.editUser = async (req, res, next) => {
          data: {
             firstname: firstname,
             lastname: lastname,
-            address: address,
          },
       });
 
