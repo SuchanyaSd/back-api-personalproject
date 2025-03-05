@@ -168,8 +168,8 @@ exports.getCartItemsByCustomerId = async (req, res, next) => {
        where: { customerId: Number(customerId), completed: false },
        select: {
          id: true,
-         orderDate: true,        // ✅ เพิ่มวันที่สั่งซื้อ
-         paymentStatus: true,    // ✅ เพิ่มสถานะการชำระเงิน
+         orderDate: true,        // เพิ่มวันที่สั่งซื้อ
+         paymentStatus: true,    // เพิ่มสถานะการชำระเงิน
          orderItems: {
            include: {
              products: {
@@ -196,12 +196,6 @@ exports.getCartItemsByCustomerId = async (req, res, next) => {
      next(error);
    }
  };
- 
- 
- 
-
-
-// exports.getCartItemsByCustomerId = async (req, res, next) => {
 //    try {
 //      const { customerId } = req.params; // รับ customerId จาก params
  

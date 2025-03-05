@@ -78,7 +78,8 @@ model Order {
 
   paymentDate   DateTime?    @default(now())
   paymentMethod String?
-  paymentStatus Boolean       @default(false)
+  paymentStatus Boolean      @default(false)
+  createdAt     DateTime     @default(now())
   orderItems    Order_Item[]
   completed     Boolean      @default(false)
 }
