@@ -10,7 +10,7 @@ const orderRoute = require("./routes/order-route")
 const port = process.env.PORT
 
 const path = require("path");
-const { fileURLToPath } = require("url");
+// const { fileURLToPath } = require("url");
 
 const app = express()
 
@@ -23,6 +23,7 @@ app.use("/api/product", productRoute)
 app.use("/api/cart", cartRoute)
 app.use("/api/order", orderRoute)
 
+// ไม่มีภาพจะไม่แสดงที่หน้าเว็บ
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
 app.use(handleErrors)

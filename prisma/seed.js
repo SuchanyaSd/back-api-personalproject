@@ -1,174 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-// const products = [
-//    {
-//       id: 1,
-//       name: "Women Round Neck Cotton Top",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 100,
-//       image: ["image1.jpg"],
-//       category: "Women",
-//       sizes: ["S", "M", "L"],
-//       date: 1716634345448,
-//       bestseller: true
-//    },
-//    {
-//       id: 2,
-//       name: "Men Round Neck Pure Cotton T-shirt",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 200,
-//       image: ["image2_1.jpg", "image2_2.jpg", "image2_3.jpg", "image2_4.jpg"],
-//       category: "Men",
-//       sizes: ["M", "L", "XL"],
-//       date: 1716621345448,
-//       bestseller: true
-//    },
-//    {
-//       id: 3,
-//       name: "Girls Round Neck Cotton Top",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 220,
-//       image: ["image3.jpg"],
-//       category: "Kids",
-//       sizes: ["S", "L", "XL"],
-//       date: 1716234545448,
-//       bestseller: true
-//    },
-//    {
-//       id: 4,
-//       name: "Men Round Neck Pure Cotton T-shirt",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 110,
-//       image: ["image4.jpg"],
-//       category: "Men",
-//       sizes: ["S", "M", "XXL"],
-//       date: 1716621345448,
-//       bestseller: true
-//    },
-//    {
-//       id: 5,
-//       name: "Women Round Neck Cotton Top",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 130,
-//       image: ["image5.jpg"],
-//       category: "Women",
-//       sizes: ["M", "L", "XL"],
-//       date: 1716622345448,
-//       bestseller: true
-//    },
-//    {
-//       id: 6,
-//       name: "Girls Round Neck Cotton Top",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 140,
-//       image: ["image6.jpg"],
-//       category: "Kids",
-//       sizes: ["S", "L", "XL"],
-//       date: 1716623423448,
-//       bestseller: true
-//    },
-//    {
-//       id: 7,
-//       name: "Men Tapered Fit Flat-Front Trousers",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 190,
-//       image: ["image7.jpg"],
-//       category: "Men",
-//       sizes: ["S", "L", "XL"],
-//       date: 1716621542448,
-//       bestseller: false
-//    },
-//    {
-//       id: 8,
-//       name: "Men Round Neck Pure Cotton T-shirt",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 140,
-//       image: ["image8.jpg"],
-//       category: "Men",
-//       sizes: ["S", "M", "L", "XL"],
-//       date: 1716622345448,
-//       bestseller: false
-//    },
-//    {
-//       id: 9,
-//       name: "Girls Round Neck Cotton Top",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 100,
-//       image: ["image9.jpg"],
-//       category: "Kids",
-//       sizes: ["M", "L", "XL"],
-//       date: 1716621235448,
-//       bestseller: false
-//    },
-//    {
-//       id: 10,
-//       name: "Men Tapered Fit Flat-Front Trousers",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 110,
-//       image: ["image10.jpg"],
-//       category: "Men",
-//       sizes: ["S", "L", "XL"],
-//       date: 1716622235448,
-//       bestseller: false
-//    },
-//    {
-//       id: 11,
-//       name: "Men Round Neck Pure Cotton T-shirt",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 120,
-//       image: ["image11.jpg"],
-//       category: "Men",
-//       sizes: ["S", "M", "L"],
-//       date: 1716623345448,
-//       bestseller: false
-//    },
-//    {
-//       id: 12,
-//       name: "Men Round Neck Pure Cotton T-shirt",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 150,
-//       image: ["image12.jpg"],
-//       category: "Men",
-//       sizes: ["S", "M", "L", "XL"],
-//       date: 1716624445448,
-//       bestseller: false
-//    },
-//    {
-//       id: 13,
-//       name: "Women Round Neck Cotton Top",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 130,
-//       image: ["image13.jpg"],
-//       category: "Women",
-//       sizes: ["S", "M", "L", "XL"],
-//       date: 1716625545448,
-//       bestseller: false
-//    },
-//    {
-//       id: 14,
-//       name: "Boy Round Neck Pure Cotton T-shirt",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 160,
-//       image: ["image14.jpg"],
-//       category: "Kids",
-//       sizes: ["S", "M", "L", "XL"],
-//       date: 1716626645448,
-//       bestseller: false
-//    },
-//    {
-//       id: 15,
-//       name: "Men Tapered Fit Flat-Front Trousers",
-//       description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-//       price: 140,
-//       image: ["image15.jpg"],
-//       category: "Men",
-//       sizes: ["S", "M", "L", "XL"],
-//       date: 1716627745448,
-//       bestseller: false
-//    },
-// ]
-
 const products = [
    {
       id: 1,
@@ -796,7 +628,6 @@ const products = [
 
 ]
 
-
 const main = async () => {
 
    try {
@@ -841,16 +672,6 @@ const main = async () => {
                },
             });
          }
-
-         // 4. สร้าง AllImages
-         // for (const imageUrl of product.image) {
-         //    await prisma.allImages.create({
-         //       data: {
-         //          productId: createdProduct.id,
-         //          url: imageUrl,
-         //       },
-         //    });
-         // }
       }
       console.log('Seed data inserted successfully.');
    } catch (error) {

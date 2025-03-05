@@ -1,12 +1,11 @@
 
 const cloudinary = require("../configs/cloudinary")
 const prisma = require("../configs/prisma")
-const createError = require("../utils/createError")
 
 exports.addProduct = async (req, res, next) => {
    try {
 
-      const { name, description, price, category, sizes, bestseller } = req.body
+      const { name, description, price, category } = req.body
 
       const optionData = {}
 

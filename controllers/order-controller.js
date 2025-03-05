@@ -40,49 +40,6 @@ exports.getTotalQuantityByUserId = async (req, res, next) => {
    }
 };
 
-// exports.getProductsByCustomerId = async (req, res, next) => {
-//    try {
-//       const { customerId } = req.params;
-
-//       if (!customerId) {
-//          return res.status(400).json({ message: 'Customer ID is required' });
-//       }
-
-//       const orders = await prisma.order.findMany({
-//          where: { customerId: parseInt(customerId) },
-//          include: {
-//             orderItems: {
-//                include: {
-//                   products: {
-//                      include: {
-//                         AllImages: true,
-//                         sizes: true
-//                      }
-//                   }
-//                }
-//             }
-//          }
-//       });
-
-//       const productData = orders.flatMap(order =>
-//          order.orderItems.map(item => ({
-//             productId: item.products.id,
-//             name: item.products.name,
-//             image: item.products.AllImages.length > 0 ? item.products.AllImages[0].url : null,
-//             price: item.products.price,
-//             size: item.size,
-//             quantity: item.quantity,
-//             totalPrice: item.quantity * item.products.price
-//          }))
-//       );
-
-//       res.status(200).json(productData);
-//    } catch (error) {
-//       console.error(error);
-//       next(error);
-//    }
-// };
-
 exports.getProductsByCustomerId = async (req, res, next) => {
    try {
       const { customerId } = req.params;
