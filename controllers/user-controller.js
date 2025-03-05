@@ -77,34 +77,34 @@ exports.loginUser = async (req, res, next) => {
    }
 }
 
-// exports.currentUser = async (req, res, next) => {
-//    try {
-//       res.json({ result: req.user });
-//    } catch (error) {
-//       next(error);
-//    }
-// };
+exports.currentUser = async (req, res, next) => {
+   try {
+      res.json({ result: req.user });
+   } catch (error) {
+      next(error);
+   }
+};
 
-// exports.editUser = async (req, res, next) => {
-//    try {
-//       const { firstname, lastname, address } = req.body;
+exports.editUser = async (req, res, next) => {
+   try {
+      const { firstname, lastname, address } = req.body;
 
-//       const profile = await prisma.user.update({
-//          where: {
-//             id: req.user.id,
-//          },
-//          data: {
-//             firstname: firstname,
-//             lastname: lastname,
-//             address: address,
-//          },
-//       });
+      const profile = await prisma.user.update({
+         where: {
+            id: req.user.id,
+         },
+         data: {
+            firstname: firstname,
+            lastname: lastname,
+            address: address,
+         },
+      });
 
-//       res.json({ message: "Edit Success" });
-//    } catch (err) {
-//       next(err)
-//    }
-// }
+      res.json({ message: "Edit Success" });
+   } catch (err) {
+      next(err)
+   }
+}
 
 exports.editUser = async (req, res, next) => {
    try {
