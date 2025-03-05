@@ -10,10 +10,10 @@ orderRoute.delete("/customers/:customerId/products/:productId/sizes/:sizeId", or
 orderRoute.patch("/status", orderController.updateStatus)
 
 // payment
-orderRoute.post("/place", orderController.placeOrder)
+// orderRoute.post("/place", orderController.placeOrder)
 
 // user
-orderRoute.get("/user-order", orderController.userOrders)
+// orderRoute.get("/user-order", orderController.userOrders)
 
 
 module.exports = orderRoute

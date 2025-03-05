@@ -77,13 +77,13 @@ exports.loginUser = async (req, res, next) => {
    }
 }
 
-exports.currentUser = async (req, res, next) => {
-   try {
-      res.json({ result: req.user });
-   } catch (error) {
-      next(error);
-   }
-};
+// exports.currentUser = async (req, res, next) => {
+//    try {
+//       res.json({ result: req.user });
+//    } catch (error) {
+//       next(error);
+//    }
+// };
 
 exports.editUser = async (req, res, next) => {
    try {

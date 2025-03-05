@@ -1,13 +1,5 @@
 const prisma = require("../configs/prisma")
 
-exports.placeOrder = async (req, res, next) => {
-   try {
-      res.json({ message: "placeOrder" })
-   } catch (err) {
-      next(err)
-   }
-}
-
 exports.allOrders = async (req, res, next) => {
    try {
       const totalQuantity = await prisma.order_Item.aggregate({
@@ -21,22 +13,6 @@ exports.allOrders = async (req, res, next) => {
       next(error);
    }
 };
-
-exports.userOrders = async (req, res, next) => {
-   try {
-      res.json({ message: "userOrder" })
-   } catch (err) {
-      next(err)
-   }
-}
-
-exports.updateStatus = async (req, res, next) => {
-   try {
-      res.json({ message: "updateStatus" })
-   } catch (err) {
-      next(err)
-   }
-}
 
 exports.getTotalQuantityByUserId = async (req, res, next) => {
    try {

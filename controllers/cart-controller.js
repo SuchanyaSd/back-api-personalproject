@@ -210,18 +210,3 @@ exports.addToCart = async (req, res, next) => {
       next(error);
    }
 };
-
-exports.updateTocart = async (req, res, next) => {
-   try {
-      res.json({ message: "updateTocart" })
-   } catch (err) {
-      next(err)
-   }
-}
-exports.getUserCart = async (req, res, next) => {
-   try {
-      res.json({ message: "getUserCart" })
-   } catch (err) {
-      next(err)
-   }
-}
