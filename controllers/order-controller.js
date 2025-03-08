@@ -134,3 +134,35 @@ exports.deleteProductFromCart = async (req, res, next) => {
       next(error);
    }
 };
+
+exports.getAllOrders = async (req, res, next) => {
+   try {
+      const orders = await prisma.order.findMany({
+         include: {
+            orderItems: true, // ดึงข้อมูล orderItems ที่เกี่ยวข้องด้วย
+         },
+      });
+
+      res.status(200).json(orders);
+   } catch (error) {
+      console.error('เกิดข้อผิดพลาดในการดึงข้อมูล orders:', error);
+      next(error); // ส่งต่อ error ไปยัง middleware ตัวจัดการ error
+   }
+};
+
+exports.updateOrderStatus = async (req, res, next) => {
+   const { id } = req.params;
+   const { paymentStatus } = req.body;
+
+   try {
+      const updatedOrder = await prisma.order.update({
+         where: { id: parseInt(id) },
+         data: { paymentStatus },
+      });
+
+      res.json(updatedOrder);
+   } catch (error) {
+      console.error('Error updating order status:', error);
+      next(error); // ส่งต่อ error ไปยัง middleware ตัวจัดการข้อผิดพลาด
+   }
+};

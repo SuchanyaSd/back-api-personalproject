@@ -106,55 +106,132 @@ exports.editUser = async (req, res, next) => {
    }
 }
 
-exports.editUser = async (req, res, next) => {
-   try {
-      const { firstname, lastname,  } = req.body;
+// exports.editUser = async (req, res, next) => {
+//    try {
+//       const { firstname, lastname } = req.body;
 
-      const profile = await prisma.user.update({
-         where: {
-            id: req.user.id,
-         },
-         data: {
-            firstname: firstname,
-            lastname: lastname,
-         },
-      });
+//       const profile = await prisma.user.update({
+//          where: {
+//             id: req.user.id,
+//          },
+//          data: {
+//             firstname: firstname,
+//             lastname: lastname,
+//          },
+//       });
 
-      res.json({ message: "Edit Success" });
-   } catch (err) {
-      next(err)
-   }
-}
+//       res.json({ message: "Edit Success" });
+//    } catch (err) {
+//       next(err)
+//    }
+// }
+
+// exports.getCustomerId = async (req, res, next) => {
+//    try {
+//       // ดึง token จาก request header
+//       const token = req.headers.authorization?.split(" ")[1]; // "Bearer <token>"
+
+//       if (!token) {
+//          return res.status(401).json({ message: "Unauthorized: No token provided" });
+//       }
+
+//       // ตรวจสอบและถอดรหัส token
+//       const decoded = jwt.verify(token, process.env.SECRET);
+//       const userId = decoded.id;
+
+//       // ค้นหา user ใน database
+//       const user = await prisma.user.findUnique({
+//          where: { id: userId },
+//          select: { id: true }, // เลือกเฉพาะ customerId (id)
+//       });
+
+//       if (!user) {
+//          return res.status(404).json({ message: "User not found" });
+//       }
+
+//       res.json({ customerId: user.id });
+
+//    } catch (error) {
+//       next(error);
+//    }
+// };
+
 
 exports.getCustomerId = async (req, res, next) => {
    try {
-      // ดึง token จาก request header
       const token = req.headers.authorization?.split(" ")[1]; // "Bearer <token>"
 
       if (!token) {
          return res.status(401).json({ message: "Unauthorized: No token provided" });
       }
 
-      // ตรวจสอบและถอดรหัส token
       const decoded = jwt.verify(token, process.env.SECRET);
       const userId = decoded.id;
 
-      // ค้นหา user ใน database
       const user = await prisma.user.findUnique({
          where: { id: userId },
-         select: { id: true }, // เลือกเฉพาะ customerId (id)
+         select: { id: true, firstname: true, lastname: true, address: true }, // เพิ่มข้อมูลที่ต้องการ
       });
 
       if (!user) {
          return res.status(404).json({ message: "User not found" });
       }
 
-      res.json({ customerId: user.id });
+      res.json({ 
+         customerId: user.id,
+         firstname: user.firstname,
+         lastname: user.lastname,
+         address: user.address
+      });
 
    } catch (error) {
       next(error);
    }
 };
+
+exports.getUserById = async (req, res, next) => {
+   try {
+     const userId = parseInt(req.params.id); // ดึง id จาก request parameters และแปลงเป็น integer
+     const user = await prisma.user.findUnique({
+       where: {
+         id: userId,
+       },
+       select: {
+         firstname: true,
+         lastname: true,
+         email: true,
+         address: true,
+       },
+     });
+ 
+     if (!user) {
+       return res.status(404).json({ message: 'ไม่พบผู้ใช้' });
+     }
+ 
+     res.status(200).json(user);
+   } catch (error) {
+     console.error('เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้:', error);
+     next(error); // ส่งต่อ error ไปยัง middleware ตัวจัดการ error
+   }
+ };
+
+ exports.updateUserById = async (req, res, next) => {
+   try {
+      const userId = parseInt(req.params.id); // รับค่า id จากพารามิเตอร์
+      const { firstname, lastname, email, address } = req.body; // รับค่าที่ต้องการอัปเดตจาก body
+
+      const updatedUser = await prisma.user.update({
+         where: { id: userId },
+         data: { firstname, lastname, email, address },
+      });
+
+      res.status(200).json({ message: 'อัปเดตข้อมูลสำเร็จ', user: updatedUser });
+   } catch (error) {
+      console.error('เกิดข้อผิดพลาดในการอัปเดตข้อมูลผู้ใช้:', error);
+      next(error); // ส่ง error ไปให้ middleware จัดการ
+   }
+};
+
 
 exports.getCartItemsByCustomerId = async (req, res, next) => {
    try {
