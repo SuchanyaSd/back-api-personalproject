@@ -11,5 +11,5 @@ userRouter.patch("/edit-user", authCheck, userController.editUser)
 userRouter.get('/cart/:customerId', userController.getCartItemsByCustomerId);
 userRouter.get('/users/:id', userController.getUserById);
 userRouter.put('/users/:id', userController.updateUserById);
-
+userRouter.post('/users/order', authCheck, userController.saveOrder);
 module.exports = userRouter

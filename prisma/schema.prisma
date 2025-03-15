@@ -71,10 +71,14 @@ model Category {
 }
 
 model Order {
-  id         Int      @id @default(autoincrement())
-  customerId Int
-  orderDate  DateTime @default(now())
-  totalPrice Int
+  id              Int      @id @default(autoincrement())
+  customerId      Int
+  orderDate       DateTime @default(now())
+  totalPrice      Int
+  stripePaymentId String?
+  amount          Int?
+  status          String?
+  currency        String?
 
   paymentDate   DateTime?    @default(now())
   paymentMethod String?

@@ -1,6 +1,6 @@
 const prisma = require("../configs/prisma");
 const stripe = require("stripe")(
-   "pk_test_51R0dnA2S3LIqQjBTrxmhwtoURSbS2C0bf7Poj3o3pe19YIUxF4ZmahmIZk8JPk6fqlJk4lSYpr4dYKTFaDPJriDr00PRN1xcjg"
+   "sk_test_51R0e3MCaAnIpzJiqknSshoFsjf2BHMab9QeORxSPL50IAFVi6dTuQ9s6BsocvkubAMDwXK3Uw3hvMnkF8BAEgz3T00SEyY1OIu"
 );
 // const stripe = require('stripe')('sk_test_0QcpU1z0LTkqnbM2xwSgkV9500o3nNRTSO');
 // const stripe = require("stripe")
@@ -14,12 +14,13 @@ exports.payment = async (req, res) => {
 
       const cart = await prisma.order.findFirst({
          where: {
-            customerId : req.customerId.id,
+            customerId: req.user.id,
          },
       });
-      const amountTHB = cart.cartTotal * 100;
+      const amountTHB = cart.totalPrice * 100;
+      console.log(amountTHB)
 
-      // Create a PaymentIntent with the order amount and currency
+      // // Create a PaymentIntent with the order amount and currency
       const paymentIntent = await stripe.paymentIntents.create({
          amount: amountTHB,
          currency: "thb",
@@ -32,6 +33,8 @@ exports.payment = async (req, res) => {
       res.send({
          clientSecret: paymentIntent.client_secret,
       });
+
+      // res.json("pyament")
    } catch (err) {
       console.log(err);
       res.status(500).json({ message: "Server Error" });
